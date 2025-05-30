@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Image, StyleSheet, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Image, StyleSheet, Alert, TextInput } from 'react-native';
 import { collection, query, onSnapshot, doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../Config/firebaseConfig';
 import { AuthContext } from '../context/AuthContext';
@@ -18,6 +18,12 @@ export default function Home() {
   const navigation = useNavigation();
   const [lists, setLists] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Modal sửa tên danh sách
+  const [editingList, setEditingList] = useState(null);
+  const [editedName, setEditedName] = useState('');
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     if (loading) return;
@@ -51,63 +57,51 @@ export default function Home() {
   }, [user, loading, navigation]);
 
   const handleListPress = (item) => {
-    navigation.navigate('ListDetail', { 
-      listId: item.id, 
-      listName: item.name 
+    navigation.navigate('ListDetail', {
+      listId: item.id,
+      listName: item.name
     });
   };
 
   const handleEditList = (item) => {
-    Alert.prompt(
-      'Sửa tên danh sách',
-      'Nhập tên mới cho danh sách:',
-      [
-        {
-          text: 'Hủy',
-          style: 'cancel'
-        },
-        {
-          text: 'Lưu',
-          onPress: async (newName) => {
-            if (newName && newName.trim()) {
-              try {
-                const listRef = doc(db, 'users', user.email, 'lists', item.id);
-                await updateDoc(listRef, {
-                  name: newName.trim(),
-                  updatedAt: new Date().toISOString()
-                });
-              } catch (error) {
-                console.error('Update list error:', error);
-                Alert.alert('Lỗi', 'Không thể cập nhật tên danh sách');
-              }
-            }
-          }
-        }
-      ],
-      'plain-text',
-      item.name
-    );
+    setEditingList(item);
+    setEditedName(item.name);
   };
 
-  const handleDeleteList = (item) => {
+  const saveEditedList = async () => {
+    if (!editedName.trim()) {
+      Alert.alert('Lỗi', 'Tên danh sách không được để trống');
+      return;
+    }
+
+    try {
+      setIsUpdating(true);
+      const docRef = doc(db, 'users', user.email, 'lists', editingList.id);
+      await updateDoc(docRef, { name: editedName.trim() });
+
+      setEditingList(null);
+      setEditedName('');
+    } catch (error) {
+      Alert.alert('Lỗi khi cập nhật', error.message);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleDeleteList = async (item) => {
     Alert.alert(
-      'Xóa danh sách',
-      'Bạn có chắc muốn xóa danh sách này?',
+      'Xác nhận xóa',
+      `Bạn có chắc muốn xóa danh sách "${item.name}"?`,
       [
-        {
-          text: 'Hủy',
-          style: 'cancel'
-        },
+        { text: 'Hủy', style: 'cancel' },
         {
           text: 'Xóa',
           style: 'destructive',
           onPress: async () => {
             try {
-              const listRef = doc(db, 'users', user.email, 'lists', item.id);
-              await deleteDoc(listRef);
+              await deleteDoc(doc(db, 'users', user.email, 'lists', item.id));
             } catch (error) {
-              console.error('Delete list error:', error);
-              Alert.alert('Lỗi', 'Không thể xóa danh sách');
+              Alert.alert('Lỗi khi xóa', error.message);
             }
           }
         }
@@ -115,27 +109,9 @@ export default function Home() {
     );
   };
 
-  const showListOptions = (item) => {
-    Alert.alert(
-      item.name,
-      'Chọn thao tác',
-      [
-        {
-          text: 'Sửa tên',
-          onPress: () => handleEditList(item)
-        },
-        {
-          text: 'Xóa',
-          onPress: () => handleDeleteList(item),
-          style: 'destructive'
-        },
-        {
-          text: 'Hủy',
-          style: 'cancel'
-        }
-      ]
-    );
-  };
+  const filteredLists = lists.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (loading || isLoading) {
     return (
@@ -151,52 +127,70 @@ export default function Home() {
     <View style={styles.container}>
       <Text style={styles.title}>DANH SÁCH MUA SẮM</Text>
 
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Tìm kiếm danh sách..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        autoCorrect={false}
+        clearButtonMode="while-editing"
+      />
+
       <FlatList
-        data={lists}
+        data={filteredLists}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => handleListPress(item)}
-            onLongPress={() => showListOptions(item)}
+            onLongPress={() => handleEditList(item)}
             style={styles.listItem}
           >
             <View style={styles.listItemContent}>
-              <Image
-                source={icons.shoppingCart}
-                style={styles.itemIcon}
-              />
+              <Image source={icons.shoppingCart} style={styles.itemIcon} />
               <Text style={styles.itemText}>{item.name}</Text>
             </View>
             <View style={styles.actionButtons}>
-              <TouchableOpacity
-                onPress={() => handleEditList(item)}
-                style={styles.actionButton}
-              >
+              <TouchableOpacity onPress={() => handleEditList(item)} style={styles.actionButton}>
                 <Image source={icons.edit} style={styles.actionIcon} />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => handleDeleteList(item)}
-                style={styles.actionButton}
-              >
+              <TouchableOpacity onPress={() => handleDeleteList(item)} style={styles.actionButton}>
                 <Image source={icons.delete} style={styles.actionIcon} />
               </TouchableOpacity>
             </View>
           </TouchableOpacity>
         )}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>Chưa có danh sách mua sắm nào</Text>
-        }
+        ListEmptyComponent={<Text style={styles.emptyText}>Không tìm thấy danh sách phù hợp</Text>}
       />
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate('AddList')}
-        style={styles.addButton}
-      >
-        <Image
-          source={icons.add}
-          style={styles.addIcon}
-        />
+      <TouchableOpacity onPress={() => navigation.navigate('AddList')} style={styles.addButton}>
+        <Image source={icons.add} style={styles.addIcon} />
       </TouchableOpacity>
+
+      {/* Modal chỉnh sửa */}
+      {editingList && (
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Sửa tên danh sách</Text>
+            <TextInput
+              style={styles.modalInput}
+              value={editedName}
+              onChangeText={setEditedName}
+              placeholder="Nhập tên mới"
+            />
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={styles.modalButton} onPress={saveEditedList} disabled={isUpdating}>
+                <Text style={styles.modalButtonText}>{isUpdating ? 'Đang lưu...' : 'Lưu'}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, { backgroundColor: '#ccc' }]}
+                onPress={() => setEditingList(null)}
+              >
+                <Text style={styles.modalButtonText}>Hủy</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -214,14 +208,21 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 10,
     color: 'red',
     textAlign: 'center',
+  },
+  searchInput: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 15,
   },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    
     justifyContent: 'space-between',
     padding: 15,
     marginVertical: 8,
@@ -231,7 +232,6 @@ const styles = StyleSheet.create({
   listItemContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    
     flex: 1,
   },
   itemIcon: {
@@ -275,5 +275,48 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     tintColor: '#fff',
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  modalContainer: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    elevation: 10,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalInput: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 15,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  modalButton: {
+    backgroundColor: '#1E90FF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });

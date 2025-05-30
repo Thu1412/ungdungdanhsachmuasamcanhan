@@ -18,7 +18,7 @@ import { AuthContext } from '../context/AuthContext';
 const icons = {
   checkmarkCircle: require('../../images/mark.png'),
   ellipseOutline: require('../../images/circle.png'),
-  add: require('../../images/add.png'),
+  add: require('../../images/plus.png'),
   checkmarkDone: require('../../images/mark.png'),
   search: require('../../images/loupe.png'),
   threeDots: require('../../images/ellipsis.png'),  // icon 3 chấm
@@ -206,8 +206,10 @@ export default function ListDetail({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+      
       <View style={styles.header}>
-        <Text style={styles.title}>{listName}</Text>
+        <Text style={styles.title}>DANH SÁCH CÁC MÓN HÀNG</Text>
+        <Text style={styles.title1}>{listName}</Text>
         <View style={styles.searchBar}>
           <Image source={icons.search} style={styles.searchIcon} />
           <TextInput
@@ -253,10 +255,12 @@ export default function ListDetail({ navigation, route }) {
       <View style={styles.footer}>
         <View style={styles.totalContainer}>
           <Text style={styles.totalText}>
-            Đã mua: {purchasedCost.toLocaleString()}đ
+            Đã mua: {"\n"}{purchasedCost.toLocaleString()}đ
           </Text>
+          
           <Text style={styles.totalText}>
-            Tổng cộng: {totalCost.toLocaleString()}đ
+            Tổng cộng:{"\n"}
+            {totalCost.toLocaleString()}đ
           </Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -280,6 +284,7 @@ export default function ListDetail({ navigation, route }) {
               );
             }}
           >
+            <Image source={icons.checkmarkDone} style={{ width: 24, height: 24 }} />
             <Text style={styles.buttonText}>Hoàn thành</Text>
           </TouchableOpacity>
         </View>
@@ -297,7 +302,7 @@ const styles = StyleSheet.create({
     padding: 12,
     backgroundColor: '#f0f0f0',
   },
-  title: {
+  title1: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 8,
@@ -321,6 +326,13 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     height: 40,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'red',
+    textAlign: 'center',
   },
   filterButtons: {
     flexDirection: 'row',
@@ -385,8 +397,10 @@ const styles = StyleSheet.create({
   },
   footer: {
     padding: 12,
+    
     borderTopWidth: 1,
     borderColor: '#ccc',
+    
     backgroundColor: '#fafafa',
   },
   totalContainer: {
@@ -397,6 +411,10 @@ const styles = StyleSheet.create({
   totalText: {
     fontSize: 16,
     fontWeight: '700',
+    textAlign: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    color: '#333',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -405,20 +423,22 @@ const styles = StyleSheet.create({
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#2196f3',
+    backgroundColor: '#FFCC33',
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 6,
   },
   completeButton: {
-    backgroundColor: '#4caf50',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#CC66FF',
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 6,
-    justifyContent: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: '#333',
+  
     marginLeft: 6,
     fontWeight: '600',
   },

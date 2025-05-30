@@ -131,7 +131,22 @@ function MainTabs() {
       // Avoid aggressively unmounting tabs which might cause child view removal errors
       
     >
-      <Tab.Screen name="Home" component={HomeStack} />
+       <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            // Nếu bạn muốn khi nhấn tab Home, reset stack về HomeScreen:
+            // Ngăn sự kiện mặc định
+            e.preventDefault();
+
+            // Navigate về màn hình HomeScreen trong stack HomeStack
+            navigation.navigate('Home', {
+              screen: 'HomeScreen', // Tên màn hình stack bên trong HomeStack
+            });
+          },
+        })}
+      />
       <Tab.Screen name="History" component={History} options={{ title: 'Lịch sử' }} />
       <Tab.Screen name="Statistics" component={Statistics} options={{ title: 'Thống kê' }} />
       <Tab.Screen name="Profile" component={Profile} options={{ title: 'Cá nhân' }} />

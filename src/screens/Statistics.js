@@ -64,11 +64,27 @@ export default function Statistics() {
     return { labels, data };
   };
 
+  // Hàm mới xử lý categorySpending dựa trên items trong từng list, tính tổng price * quantity theo tên item
   const calculateCategorySpending = (lists) => {
     const categories = {};
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 6);
+
     lists.forEach(list => {
-      if (list.category && list.totalSpent) {
-        categories[list.category] = (categories[list.category] || 0) + list.totalSpent;
+      if (Array.isArray(list.items)) {
+        list.items.forEach(item => {
+          if (
+            item.purchased === true &&
+            item.addedAt &&
+            new Date(item.addedAt) >= sevenDaysAgo &&
+            item.name &&
+            typeof item.price === 'number' &&
+            typeof item.quantity === 'number'
+          ) {
+            categories[item.name] = (categories[item.name] || 0) + (item.price * item.quantity);
+          }
+        });
       }
     });
 
@@ -142,23 +158,29 @@ export default function Statistics() {
 
         {/* Biểu đồ chi tiêu theo danh mục */}
         <View style={styles.card}>
-          <Text style={styles.title}>Chi tiêu theo danh mục</Text>
-          {categorySpending.length > 0 ? (
-            <PieChart
-              data={categorySpending}
-              width={Dimensions.get('window').width - 40}
-              height={220}
-              chartConfig={{
-                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
-              }}
-              accessor="amount"
-              backgroundColor="transparent"
-              paddingLeft="15"
-            />
-          ) : (
-            <Text style={styles.emptyText}>Chưa có dữ liệu chi tiêu theo danh mục</Text>
-          )}
-        </View>
+  <Text style={styles.title}>Chi tiêu theo danh mục</Text>
+  {categorySpending.length > 0 ? (
+    <>
+      <PieChart
+        data={categorySpending}
+        width={Dimensions.get('window').width - 40}
+        height={220}
+        chartConfig={{
+          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+        }}
+        accessor="amount"
+        backgroundColor="transparent"
+        paddingLeft={15}
+      />
+      <Text style={{ textAlign: 'center', marginTop: 10 }}>
+        Tổng số danh mục: {categorySpending.length}
+      </Text>
+    </>
+  ) : (
+    <Text style={styles.emptyText}>Chưa có dữ liệu chi tiêu theo danh mục</Text>
+  )}
+</View>
+
 
       </ScrollView>
     </View>
