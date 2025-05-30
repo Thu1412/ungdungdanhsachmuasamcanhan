@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "319093840487",
+    "firebase_url": "https://ungdungdanhsachmuasam-default-rtdb.firebaseio.com",
+    "project_id": "ungdungdanhsachmuasam",
+    "storage_bucket": "ungdungdanhsachmuasam.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319093840487:android:82f1e731cabf0be433d2c2",
+        "android_client_info": {
+          "package_name": "com.ungdungdanhsachmuasam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyz7-OQHBBeCYdEq8VRVw5_LfpTKwFOGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
