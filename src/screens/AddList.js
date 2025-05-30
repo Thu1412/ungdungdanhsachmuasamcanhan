@@ -59,7 +59,11 @@ export default function AddList({ navigation }) {
       });
 
       Alert.alert('Thành công', 'Đã tạo danh sách mới');
-      navigation.goBack();
+      setTimeout(() => {
+        if (navigation.canGoBack()) {
+          navigation.goBack();
+        }
+      }, 100);
     } catch (error) {
       console.error('Create list error:', error);
       Alert.alert('Lỗi', 'Không thể tạo danh sách. Vui lòng thử lại.');
@@ -87,6 +91,7 @@ export default function AddList({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>DANH SÁCH MÓN HÀNG</Text>
       <TextInput
         style={styles.input}
         placeholder="Tên danh sách"
@@ -135,6 +140,13 @@ const styles = StyleSheet.create({
   },
   suggestionsList: {
     marginTop: 8,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'red',
+    textAlign: 'center',
   },
   suggestionItem: {
     padding: 12,

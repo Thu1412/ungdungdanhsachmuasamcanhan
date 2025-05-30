@@ -45,7 +45,7 @@ export default function Dangnhap({ navigation }) {
 
 
       // Điều hướng đến trang Home
-      navigation.navigate('HomeScreen');
+      
     } catch (error) {
       console.error('Login error:', error);
       Alert.alert('Lỗi', 'Email hoặc mật khẩu không đúng');
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     marginBottom: 15,
+    color: 'black',
     paddingHorizontal: 15,
     backgroundColor: 'white',
     fontSize: 16,

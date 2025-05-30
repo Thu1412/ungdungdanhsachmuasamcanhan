@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20,
   },
   input: {
-    width: '100%', height: 50, borderColor: 'gray', borderWidth: 1,
+    width: '100%', height: 50, borderColor: 'gray', borderWidth: 1,color: 'black',
     borderRadius: 5, marginBottom: 10, paddingHorizontal: 10, backgroundColor: 'white',
   },
    logo: {

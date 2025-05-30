@@ -95,8 +95,9 @@ export default function Statistics() {
 
   return (
     <View style={styles.container}>
+      < Text style={styles.title}>THỐNG KÊ</Text>
     <ScrollView style={styles.container}>
-    < Text style={styles.title}>THỐNG KÊ</Text>
+    
       {/* Biểu đồ chi tiêu theo ngày */}
       <View style={styles.card}>
         <Text style={styles.title}>Chi tiêu theo ngày</Text>

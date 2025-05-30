@@ -109,18 +109,18 @@ export default function ListDetail({ navigation, route }) {
   };
 
   const togglePurchased = async (itemId, currentStatus) => {
-    try {
-      const userDocId = user.email;
+  try {
+    const userDocId = user.email;
 
-      const itemRef = doc(db, 'users', userDocId, 'lists', listId, 'items', itemData.id);
-      await updateDoc(itemRef, {
-        purchased: !currentStatus
-      });
-    } catch (error) {
-      console.error('Toggle error:', error);
-      Alert.alert('Lỗi', 'Không thể cập nhật trạng thái');
-    }
-  };
+    const itemRef = doc(db, 'users', userDocId, 'lists', listId, 'items', itemId);
+    await updateDoc(itemRef, {
+      purchased: !currentStatus
+    });
+  } catch (error) {
+    console.error('Toggle error:', error);
+    Alert.alert('Lỗi', 'Không thể cập nhật trạng thái');
+  }
+};
 
   const completeList = async () => {
     if (!listId) {
@@ -212,8 +212,10 @@ export default function ListDetail({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+      
       <View style={styles.header}>
-        <Text style={styles.title}>{listName}</Text>
+        <Text style={styles.title}>DANH SÁCH MÓN HÀNG</Text>
+        <Text style={styles.title1}>{listName}</Text>
         <View style={styles.searchBar}>
           <Image source={icons.search} style={styles.searchIcon} />
           <TextInput
@@ -274,12 +276,23 @@ export default function ListDetail({ navigation, route }) {
             <Text style={styles.buttonText}>Thêm món</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.completeButton}
-            onPress={completeList}
-          >
-            <Image source={icons.checkmarkDone} style={{ width: 24, height: 24 }} />
+          style={styles.completeButton}
+          onPress={() => {
+            Alert.alert(
+              'Xác nhận',
+              'Bạn có chắc muốn hoàn thành danh sách?',
+              [
+                { text: 'Hủy', style: 'cancel' },
+                { text: 'Đồng ý', onPress: () => completeList() }
+              ]
+            );
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+         
             <Text style={styles.buttonText}>Hoàn thành</Text>
-          </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -291,13 +304,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'red',
+    textAlign: 'center',
+  },
   header: {
     padding: 16,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
-  title: {
+  title1: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
@@ -307,6 +327,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f1f1f1',
     borderRadius: 8,
     alignItems: 'center',
+    textShadowColor: '#333',
     paddingHorizontal: 12,
     marginBottom: 12,
   },

@@ -93,6 +93,7 @@ const EditItem = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>THÊM MÓN HÀNG MỚI</Text>
       <Text style={styles.label}>Tên món</Text>
       <TextInput
         style={styles.input}
@@ -114,6 +115,13 @@ const EditItem = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'red',
+    textAlign: 'center',
+  },
   container: { flex: 1, padding: 16, backgroundColor: '#fff' },
   label: { fontSize: 16, marginBottom: 8 },
   input: {

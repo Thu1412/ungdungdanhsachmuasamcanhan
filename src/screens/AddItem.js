@@ -115,7 +115,9 @@ export default function AddItem({ navigation, route }) {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+      
       <ScrollView>
+        <Text style={styles.title}>THÊM MÓN HÀNG MỚI</Text>
         <View style={styles.form}>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Tên món hàng *</Text>
@@ -188,6 +190,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     fontSize: 16,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'red',
+    textAlign: 'center',
   },
   textArea: { height: 100, textAlignVertical: 'top' },
   addButton: {

@@ -38,10 +38,10 @@ const icons = {
 function AuthStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Đăng Nhập" component={Dangnhap} />
-      <Stack.Screen name="Đăng Ký" component={Dangky} />
-      <Stack.Screen name="Quên Mật Khẩu" component={Quenmatkhau} />
-      <Stack.Screen name="Doimatkhau" component={Doimatkhau} />
+      <Stack.Screen name="Đăng Nhập" component={Dangnhap} options={{ headerShown: false }} />
+      <Stack.Screen name="Đăng Ký" component={Dangky} options={{ headerShown: false }}/>
+      <Stack.Screen name="Quên Mật Khẩu" component={Quenmatkhau} options={{ headerShown: false }}/>
+      <Stack.Screen name="Doimatkhau" component={Doimatkhau} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 }
@@ -59,22 +59,22 @@ function HomeStack() {
       <Stack.Screen
         name="HomeScreen"  // đổi tên thành HomeScreen
         component={Home}
-        options={{ title: '' }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="ListDetail"
         component={ListDetail}
-        options={{ title: '' }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="AddList"
         component={AddList}
-        options={{ title: '' }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="AddItem"
         component={AddItem}
-        options={{ title: '' }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="EditItem"
