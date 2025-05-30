@@ -27,6 +27,7 @@ import { db } from '../Config/firebaseConfig';
 import { AuthContext } from '../context/AuthContext';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import ListDetail from '../Logic/ListDetail';
 
 const addIcon = require('../../images/add.png');
 
@@ -102,8 +103,12 @@ export default function AddItem({ navigation, route }) {
 
       await updatePurchaseHistory(itemData);
 
-      Alert.alert('Thành công', 'Đã thêm món vào danh sách');
-      navigation.goBack();
+      Alert.alert('Thành công', 'Đã thêm món vào danh sách', [
+  {
+    text: 'OK',
+    onPress: () => navigation.navigate('ListDetail', { listId }),
+  },
+]);
     } catch (error) {
       console.error('Add item error:', error);
       Alert.alert('Lỗi', 'Không thể thêm món. Vui lòng thử lại.');

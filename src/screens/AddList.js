@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
+import { InteractionManager } from 'react-native';
 import { collection, doc, setDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../Config/firebaseConfig';
 import { AuthContext } from '../context/AuthContext';
@@ -41,34 +42,34 @@ export default function AddList({ navigation }) {
   };
 
   const handleCreateList = async () => {
-    if (!listName.trim()) {
-      Alert.alert('Lỗi', 'Vui lòng nhập tên danh sách');
-      return;
-    }
+  if (!listName.trim()) {
+    Alert.alert('Lỗi', 'Vui lòng nhập tên danh sách');
+    return;
+  }
 
-    try {
-      // Tạo document cho list với ID là tên danh sách (listName)
-      const listsRef = collection(db, 'users', user.email, 'lists');
-      const newListDoc = doc(listsRef, listName.trim()); // dùng tên danh sách làm document ID
-      await setDoc(newListDoc, {
-        name: listName.trim(),
-        createdAt: new Date().toISOString(),
-        items: [],
-        completed: false,
-        totalSpent: 0
-      });
+  try {
+    const listsRef = collection(db, 'users', user.email, 'lists');
+    const newListDoc = doc(listsRef, listName.trim());
 
-      Alert.alert('Thành công', 'Đã tạo danh sách mới');
-      setTimeout(() => {
-        if (navigation.canGoBack()) {
-          navigation.goBack();
-        }
-      }, 100);
-    } catch (error) {
-      console.error('Create list error:', error);
-      Alert.alert('Lỗi', 'Không thể tạo danh sách. Vui lòng thử lại.');
-    }
-  };
+    await setDoc(newListDoc, {
+      name: listName.trim(),
+      createdAt: new Date().toISOString(),
+      items: [],
+      completed: false,
+      totalSpent: 0
+    });
+
+    Alert.alert('Thành công', 'Đã tạo danh sách mới');
+    navigation.navigate('HomeScreen');
+    // Có thể chuyển hướng đến màn hình danh sách tại đây nếu muốn
+    // navigation.navigate('ListOverview');
+
+  } catch (error) {
+    console.error('Create list error:', error);
+    Alert.alert('Lỗi', 'Không thể tạo danh sách. Vui lòng thử lại.');
+  }
+};
+
 
   const renderSuggestionItem = ({ item }) => (
     <TouchableOpacity 

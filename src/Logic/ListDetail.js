@@ -21,6 +21,7 @@ const icons = {
   add: require('../../images/add.png'),
   checkmarkDone: require('../../images/mark.png'),
   search: require('../../images/loupe.png'),
+  threeDots: require('../../images/ellipsis.png'),  // icon 3 chấm
 };
 
 export default function ListDetail({ navigation, route }) {
@@ -42,7 +43,6 @@ export default function ListDetail({ navigation, route }) {
       navigation.goBack();
       return;
     }
-
 
     const itemsRef = collection(db, 'users', user.email, 'lists', listId, 'items' );
 
@@ -109,18 +109,18 @@ export default function ListDetail({ navigation, route }) {
   };
 
   const togglePurchased = async (itemId, currentStatus) => {
-  try {
-    const userDocId = user.email;
+    try {
+      const userDocId = user.email;
 
-    const itemRef = doc(db, 'users', userDocId, 'lists', listId, 'items', itemId);
-    await updateDoc(itemRef, {
-      purchased: !currentStatus
-    });
-  } catch (error) {
-    console.error('Toggle error:', error);
-    Alert.alert('Lỗi', 'Không thể cập nhật trạng thái');
-  }
-};
+      const itemRef = doc(db, 'users', userDocId, 'lists', listId, 'items', itemId);
+      await updateDoc(itemRef, {
+        purchased: !currentStatus
+      });
+    } catch (error) {
+      console.error('Toggle error:', error);
+      Alert.alert('Lỗi', 'Không thể cập nhật trạng thái');
+    }
+  };
 
   const completeList = async () => {
     if (!listId) {
@@ -151,9 +151,12 @@ export default function ListDetail({ navigation, route }) {
       });
 
       // Delay 100ms để UI có thời gian ổn định
-      setTimeout(() => {
-        navigation.goBack();
-      }, 100);
+      Alert.alert('Thành công', 'Đã hoàn thành danh sách', [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('HomeScreen'),
+        },
+      ]);
 
     } catch (error) {
       console.error('Complete list error:', error);
@@ -162,32 +165,23 @@ export default function ListDetail({ navigation, route }) {
   };
 
   const renderItem = ({ item }) => {
-    const swipeAnim = new Animated.Value(0);
-
     return (
-      <Animated.View
-        style={[
-          styles.item,
-          {
-            transform: [{
-              translateX: swipeAnim
-            }]
-          }
-        ]}
-      >
+      <Animated.View style={styles.item}>
         <TouchableOpacity
           style={styles.itemContent}
           onPress={() => togglePurchased(item.id, item.purchased)}
         >
+          {/* Icon 3 chấm */}
+          <Image source={icons.threeDots} style={styles.threeDotsIcon} />
+
+          {/* Checkbox */}
           <Image
             source={item.purchased ? icons.checkmarkCircle : icons.ellipseOutline}
-            style={[styles.checkbox]}
+            style={styles.checkbox}
           />
+
           <View style={styles.itemDetails}>
-            <Text style={[
-              styles.itemText,
-              item.purchased && styles.purchasedItem
-            ]}>
+            <Text style={[styles.itemText, item.purchased && styles.purchasedItem]}>
               {item.name}
             </Text>
             <Text style={styles.itemSubtext}>
@@ -212,10 +206,8 @@ export default function ListDetail({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      
       <View style={styles.header}>
-        <Text style={styles.title}>DANH SÁCH MÓN HÀNG</Text>
-        <Text style={styles.title1}>{listName}</Text>
+        <Text style={styles.title}>{listName}</Text>
         <View style={styles.searchBar}>
           <Image source={icons.search} style={styles.searchIcon} />
           <TextInput
@@ -276,23 +268,20 @@ export default function ListDetail({ navigation, route }) {
             <Text style={styles.buttonText}>Thêm món</Text>
           </TouchableOpacity>
           <TouchableOpacity
-          style={styles.completeButton}
-          onPress={() => {
-            Alert.alert(
-              'Xác nhận',
-              'Bạn có chắc muốn hoàn thành danh sách?',
-              [
-                { text: 'Hủy', style: 'cancel' },
-                { text: 'Đồng ý', onPress: () => completeList() }
-              ]
-            );
-          }}
-        >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-         
+            style={styles.completeButton}
+            onPress={() => {
+              Alert.alert(
+                'Xác nhận',
+                'Bạn có chắc muốn hoàn thành danh sách?',
+                [
+                  { text: 'Hủy', style: 'cancel' },
+                  { text: 'Đồng ý', onPress: () => completeList() }
+                ]
+              );
+            }}
+          >
             <Text style={styles.buttonText}>Hoàn thành</Text>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -304,37 +293,30 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  header: {
+    padding: 12,
+    backgroundColor: '#f0f0f0',
+  },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 20,
-    color: 'red',
-    textAlign: 'center',
-  },
-  header: {
-    padding: 16,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  title1: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 8,
   },
   searchBar: {
     flexDirection: 'row',
-    backgroundColor: '#f1f1f1',
-    borderRadius: 8,
+    backgroundColor: '#fff',
+    borderRadius: 6,
+    paddingHorizontal: 10,
     alignItems: 'center',
-    textShadowColor: '#333',
-    paddingHorizontal: 12,
-    marginBottom: 12,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
   },
   searchIcon: {
     width: 20,
     height: 20,
-    marginRight: 8,
+    tintColor: '#555',
+    marginRight: 6,
   },
   searchInput: {
     flex: 1,
@@ -345,71 +327,76 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   filterButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     borderRadius: 20,
     backgroundColor: '#ddd',
   },
   activeFilter: {
-    backgroundColor: '#28a745',
+    backgroundColor: '#4caf50',
   },
   filterText: {
     color: '#000',
+    fontWeight: '600',
   },
   item: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#ddd',
   },
   itemContent: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+  threeDotsIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 12,
+    tintColor: '#555',
+  },
   checkbox: {
-    width: 28,
-    height: 28,
-    marginRight: 16,
+    width: 24,
+    height: 24,
+    marginRight: 12,
   },
   itemDetails: {
     flex: 1,
   },
   itemText: {
     fontSize: 18,
+    fontWeight: '600',
   },
   purchasedItem: {
     textDecorationLine: 'line-through',
-    color: 'gray',
+    color: '#888',
   },
   itemSubtext: {
-    fontSize: 14,
-    color: '#666',
+    color: '#555',
   },
   itemTotal: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginTop: 4,
+    color: '#444',
+    fontWeight: '700',
   },
   emptyText: {
     textAlign: 'center',
-    marginTop: 32,
+    marginTop: 20,
     color: '#888',
-    fontSize: 16,
   },
   footer: {
-    padding: 16,
+    padding: 12,
     borderTopWidth: 1,
-    borderTopColor: '#eee',
-    backgroundColor: '#fff',
+    borderColor: '#ccc',
+    backgroundColor: '#fafafa',
   },
   totalContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   totalText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -417,23 +404,22 @@ const styles = StyleSheet.create({
   },
   addButton: {
     flexDirection: 'row',
-    backgroundColor: '#007bff',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 24,
     alignItems: 'center',
+    backgroundColor: '#2196f3',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 6,
   },
   completeButton: {
-    flexDirection: 'row',
-    backgroundColor: '#28a745',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 24,
-    alignItems: 'center',
+    backgroundColor: '#4caf50',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    justifyContent: 'center',
   },
   buttonText: {
     color: '#fff',
-    marginLeft: 8,
-    fontWeight: 'bold',
+    marginLeft: 6,
+    fontWeight: '600',
   },
 });

@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signOut = async () => {
-    await firebaseSignOut(auth);
-    setUser(null);
+    await signOut();
+  navigation.navigate('HomeScreen');
   };
 
   return (
