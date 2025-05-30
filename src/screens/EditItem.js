@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
   },
-  container: { flex: 1, padding: 16, backgroundColor: '#fff' },
+  container: { flex: 1, padding: 16, backgroundColor: '#CCCCFF' },
   label: { fontSize: 16, marginBottom: 8 },
   input: {
     borderWidth: 1,

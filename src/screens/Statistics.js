@@ -190,7 +190,7 @@ export default function Statistics() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f4f4f4',
+    backgroundColor: '#CCCC99',
   },
   mainTitle: {
     fontSize: 22,

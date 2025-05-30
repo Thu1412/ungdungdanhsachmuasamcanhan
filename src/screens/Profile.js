@@ -295,12 +295,12 @@ export default function Profile({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#CCCCFF',
   },
   header: {
     alignItems: 'center',
     padding: 32,
-    backgroundColor: '#1E90FF',
+    backgroundColor: '#CCCCFF',
   },
   avatar: {
     width: 100,
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   displayName: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'red',
     marginBottom: 8,
   },
   nameInput: {
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
   },
   email: {
     fontSize: 16,
-    color: 'white',
+    color: '#663366',
   },
   section: {
     backgroundColor: 'white',

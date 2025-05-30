@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#CCCCCC',
   },
   centered: {
     flex: 1,
@@ -214,14 +215,18 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     height: 40,
-    borderColor: '#ccc',
+    borderRadius: 20,
+    borderColor: '#333333',
     borderWidth: 1,
+    color: '#333',
+    backgroundColor: '#fff',
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 15,
   },
   listItem: {
     flexDirection: 'row',
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 15,
@@ -231,6 +236,7 @@ const styles = StyleSheet.create({
   },
   listItemContent: {
     flexDirection: 'row',
+    borderRadius: 20,
     alignItems: 'center',
     flex: 1,
   },

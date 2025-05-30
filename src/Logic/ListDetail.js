@@ -21,7 +21,7 @@ const icons = {
   add: require('../../images/plus.png'),
   checkmarkDone: require('../../images/mark.png'),
   search: require('../../images/loupe.png'),
-  threeDots: require('../../images/ellipsis.png'),  // icon 3 chấm
+  // Đã xóa icon 3 chấm
 };
 
 export default function ListDetail({ navigation, route }) {
@@ -171,8 +171,7 @@ export default function ListDetail({ navigation, route }) {
           style={styles.itemContent}
           onPress={() => togglePurchased(item.id, item.purchased)}
         >
-          {/* Icon 3 chấm */}
-          <Image source={icons.threeDots} style={styles.threeDotsIcon} />
+          {/* Đã xóa icon 3 chấm */}
 
           {/* Checkbox */}
           <Image
@@ -361,12 +360,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  threeDotsIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 12,
-    tintColor: '#555',
-  },
   checkbox: {
     width: 24,
     height: 24,
@@ -385,61 +378,57 @@ const styles = StyleSheet.create({
   },
   itemSubtext: {
     color: '#555',
+    fontSize: 14,
   },
   itemTotal: {
-    color: '#444',
+    marginTop: 4,
     fontWeight: '700',
+    fontSize: 14,
   },
   emptyText: {
     textAlign: 'center',
-    marginTop: 20,
-    color: '#888',
+    marginTop: 40,
+    fontSize: 16,
+    color: '#999',
   },
   footer: {
     padding: 12,
-    
     borderTopWidth: 1,
-    borderColor: '#ccc',
-    
+    borderColor: '#ddd',
     backgroundColor: '#fafafa',
   },
   totalContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   totalText: {
     fontSize: 16,
     fontWeight: '700',
-    textAlign: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    color: '#333',
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFCC33',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    backgroundColor: '#2196f3',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
     borderRadius: 6,
   },
   completeButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#CC66FF',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    backgroundColor: '#4caf50',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
     borderRadius: 6,
   },
   buttonText: {
-    color: '#333',
-  
-    marginLeft: 6,
-    fontWeight: '600',
+    color: '#fff',
+    marginLeft: 8,
+    fontWeight: '700',
   },
 });
