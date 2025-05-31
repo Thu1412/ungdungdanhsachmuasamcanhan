@@ -34,8 +34,8 @@ export default function Doimatkhau({ navigation }) {
       // Cập nhật mật khẩu mới
       await updatePassword(user, newPassword);
 
-      Alert.alert('Thành công', 'Doimatkhau thành công!');
-      navigation.goBack();
+      Alert.alert('Thành công', 'Đổi mật khẩu thành công!');
+      navigation.navigate('Profile');
     } catch (error) {
       console.log(error);
       Alert.alert('Lỗi', error.message || 'Đã có lỗi xảy ra');
@@ -47,7 +47,7 @@ export default function Doimatkhau({ navigation }) {
     <ImageBackground source={require('../../images/nenmuasam.jpg')} style={styles.nen}>
     <View style={styles.container}>
       <Image source={require('../../images/logomuasam.jpg')} style={styles.logo} />
-      <Text style={styles.title}>Doimatkhau</Text>
+      <Text style={styles.title}>ĐỔI NẬT KHẨU</Text>
       <TextInput
         placeholder="Mật khẩu cũ"
         secureTextEntry

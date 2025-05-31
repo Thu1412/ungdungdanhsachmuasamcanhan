@@ -215,7 +215,7 @@ export default function Profile({ navigation }) {
                 value={newPassword}
                 onChangeText={setNewPassword}
                 secureTextEntry
-                placeholder="Nhập để Doimatkhau"
+                placeholder="Nhập để Đổi Mật Khẩu"
               />
             </View>
 
@@ -273,7 +273,7 @@ export default function Profile({ navigation }) {
           style={styles.settingItem}
           onPress={() => navigation.navigate('Doimatkhau')}
         >
-          <Text style={[styles.settingLabel, { color: '#2196F3' }]}>Doimatkhau</Text>
+          <Text style={[styles.settingLabel, { color: '#333' }]}>Đổi Mật Khẩu</Text>
         </TouchableOpacity>
         <View style={styles.settingItem}>
           <Text style={styles.settingLabel}>Tự động hoàn thành</Text>

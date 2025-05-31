@@ -19,8 +19,7 @@ import History from '../screens/History';
 import Statistics from '../screens/Statistics';
 import Profile from '../screens/Profile';
 import AddItem from '../screens/AddItem';
-import EditItem from '../screens/EditItem';
-
+import EditDetail from '../screens/EditDetail';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -77,14 +76,14 @@ function HomeStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="EditItem"
-        component={EditItem}
-        options={{ title: '' }}
+        name="EditDetail"
+        component={EditDetail}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Doimatkhau"
         component={Doimatkhau}
-        options={{ title: '' }}
+       options={{ headerShown: false }}
       />
       
     </Stack.Navigator>
