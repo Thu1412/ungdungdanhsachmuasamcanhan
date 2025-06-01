@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  ImageBackground,
   Image,
   TextInput,
   Switch,
@@ -16,7 +17,7 @@ import { AuthContext } from '../context/AuthContext';
 import { updatePassword, updateEmail } from 'firebase/auth';
 import Doimatkhau from '../Logic/Doimatkhau';
 const icons = {
-  profile: require('../../images/profile.png'),
+  profile: require('../../images/profile1.png'),
   logout: require('../../images/logout.png'),
   edit: require('../../images/edit.png'),
   stats: require('../../images/analysis.png'),
@@ -179,12 +180,11 @@ export default function Profile({ navigation }) {
       </View>
 
       <View style={styles.section}>
-        <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Thông tin cá nhân</Text>
           <TouchableOpacity onPress={() => setIsEditing(!isEditing)}>
             <Image source={icons.edit} style={styles.icon} />
           </TouchableOpacity>
-        </View>
+        
 
         {isEditing ? (
           <View style={styles.form}>
@@ -238,27 +238,28 @@ export default function Profile({ navigation }) {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Thống kê</Text>
-        <View style={styles.statsContainer}>
-          <View style={styles.statItem}>
-            <Image source={icons.stats} style={styles.statIcon} />
-            <Text style={styles.statNumber}>{stats.totalLists}</Text>
-            <Text style={styles.statLabel}>Tổng danh sách</Text>
-          </View>
-          <View style={styles.statItem}>
-            <Image source={icons.stats} style={styles.statIcon} />
-            <Text style={styles.statNumber}>{stats.completedLists}</Text>
-            <Text style={styles.statLabel}>Đã hoàn thành</Text>
-          </View>
-          <View style={styles.statItem}>
-            <Image source={icons.stats} style={styles.statIcon} />
-            <Text style={styles.statNumber}>
-              {stats.totalSpent.toLocaleString()}đ
-            </Text>
-            <Text style={styles.statLabel}>Tổng chi tiêu</Text>
-          </View>
-        </View>
-      </View>
+  <Text style={styles.sectionTitle}>Thống kê</Text>
+  <View style={styles.statsContainer}>
+    <View style={styles.statItem}>
+      <Image source={icons.stats} style={styles.statIcon} />
+      <Text style={styles.statNumber}>{stats.totalLists}</Text>
+      <Text style={styles.statLabel}>SL Danh Sách</Text>
+    </View>
+    <View style={styles.statItem}>
+      <Image source={icons.stats} style={styles.statIcon} />
+      <Text style={styles.statNumber}>{stats.completedLists}</Text>
+      <Text style={styles.statLabel}>SL Hoàn Thành</Text>
+    </View>
+    <View style={styles.statItem}>
+      <Image source={icons.stats} style={styles.statIcon} />
+      <Text style={styles.statNumber}>
+        {stats.totalSpent.toLocaleString()}đ
+      </Text>
+      <Text style={styles.statLabel}>Tổng Tiền Mua</Text>
+    </View>
+  </View>
+</View>
+
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Cài đặt</Text>
@@ -334,6 +335,8 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 12,
     elevation: 2,
+    marginVertical: 20,
+  paddingHorizontal: 16,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -342,9 +345,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#009966',
+     fontSize: 20,
+  fontWeight: 'bold',
+  marginBottom: 10,
+  textAlign: 'center',
   },
   icon: {
     width: 24,
@@ -356,10 +362,11 @@ const styles = StyleSheet.create({
   },
   formGroup: {
     marginBottom: 16,
+    
   },
   label: {
     fontSize: 16,
-    color: '#666',
+    color: '#333',
     marginBottom: 8,
   },
   input: {
@@ -399,11 +406,16 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     justifyContent: 'space-around',
     marginTop: 8,
   },
   statItem: {
-    alignItems: 'center',
+    flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 10,
+
   },
   statIcon: {
     width: 32,

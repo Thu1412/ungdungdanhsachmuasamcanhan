@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native';
 import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
-import { db } from '../Config/firebaseConfig'; // Đường dẫn đến file config của bạn
+import { db } from '../Config/firebaseConfig'; 
+import { AuthContext } from '../context/AuthContext';  // thêm dòng này
 
 export default function ListDetail({ route, navigation }) {
+  const { user } = useContext(AuthContext);  // thêm dòng này để có user
+
   const { listId, itemId, itemData } = route.params;
 
   const [name, setName] = useState(itemData.name);
@@ -13,6 +16,10 @@ export default function ListDetail({ route, navigation }) {
 
   const handleSave = async () => {
     // Validate dữ liệu
+    if (!user) {
+      Alert.alert('Lỗi', 'Bạn chưa đăng nhập');
+      return;
+    }
     if (!name.trim()) {
       Alert.alert('Lỗi', 'Tên không được để trống');
       return;

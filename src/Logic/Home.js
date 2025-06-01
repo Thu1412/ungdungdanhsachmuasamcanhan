@@ -4,7 +4,7 @@ import { collection, query, onSnapshot, doc, deleteDoc, updateDoc } from 'fireba
 import { db } from '../Config/firebaseConfig';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
-
+import SearchIcon from '../../images/loupe.png';
 // Import ảnh PNG icon
 const icons = {
   shoppingCart: require('../../images/shopping-cart.png'),
@@ -68,6 +68,9 @@ export default function Home() {
     setEditedName(item.name);
   };
 
+
+
+
   const saveEditedList = async () => {
     if (!editedName.trim()) {
       Alert.alert('Lỗi', 'Tên danh sách không được để trống');
@@ -127,14 +130,18 @@ export default function Home() {
     <View style={styles.container}>
       <Text style={styles.title}>DANH SÁCH MUA SẮM</Text>
 
+      <View style={styles.searchContainer}>
+      <Image source={SearchIcon} style={styles.searchIcon} />
       <TextInput
         style={styles.searchInput}
         placeholder="Tìm kiếm danh sách..."
+        placeholderTextColor="#333"
         value={searchQuery}
         onChangeText={setSearchQuery}
         autoCorrect={false}
         clearButtonMode="while-editing"
-      />
+      />  
+      </View>
 
       <FlatList
         data={filteredLists}
@@ -214,14 +221,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   searchInput: {
+    flex: 1,
     height: 40,
-    borderRadius: 8,
-    borderColor: '#333333',
-    borderWidth: 1,
     color: '#333',
-    backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    marginBottom: 15,
   },
   listItem: {
     flexDirection: 'row',
@@ -242,6 +244,22 @@ const styles = StyleSheet.create({
     height: 24,
     marginRight: 10,
   },
+   searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#333333',
+    backgroundColor: '#fff',
+    paddingHorizontal: 10,
+    height: 40,
+    marginBottom: 15,
+  },
+  searchIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 6,
+  },
   itemText: {
     fontSize: 18,
     color: '#333',
@@ -258,7 +276,6 @@ const styles = StyleSheet.create({
   actionIcon: {
     width: 20,
     height: 20,
-    tintColor: '#666',
   },
   emptyText: {
     textAlign: 'center',
@@ -277,7 +294,6 @@ const styles = StyleSheet.create({
   addIcon: {
     width: 30,
     height: 30,
-    tintColor: '#fff',
   },
   modalOverlay: {
     position: 'absolute',

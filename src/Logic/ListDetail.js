@@ -43,7 +43,7 @@ export default function ListDetail({ navigation, route }) {
 
   const params = route.params || {};
   const listId = params.listId;
-  const listName = params.listName || 'Danh sách mới';
+  const listName = params.listName || '';
 
   useEffect(() => {
     if (!user || !listId) {
@@ -234,6 +234,7 @@ export default function ListDetail({ navigation, route }) {
             style={styles.searchInput}
             placeholder="Tìm kiếm món hàng..."
             value={searchText}
+             placeholderTextColor="#333"
             onChangeText={setSearchText}
             autoCorrect={false}
             autoCapitalize="none"
@@ -436,12 +437,13 @@ cancelButton: {
   searchIcon: {
     width: 20,
     height: 20,
-    tintColor: '#555',
+    
     marginRight: 6,
   },
   searchInput: {
     flex: 1,
     height: 40,
+    color: '#333',
   },
   title: {
     fontSize: 22,
@@ -571,5 +573,5 @@ cancelButton: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  modalCloseIcon: { width: 20, height: 20, marginRight: 8, tintColor: '#333' },
+  modalCloseIcon: { width: 20, height: 20, marginRight: 8 },
 });

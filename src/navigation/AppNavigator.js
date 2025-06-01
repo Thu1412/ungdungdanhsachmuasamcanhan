@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, ActivityIndicator, Image } from 'react-native';
+import { View, ActivityIndicator, Image,ImageBackground  } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 import BackButton from '../context/BackButton';
 
@@ -30,10 +30,22 @@ const icons = {
   time_outline: require('../../images/history.png'),
   stats_chart: require('../../images/analysis.png'),
   stats_chart_outline: require('../../images/analysis.png'),
-  person: require('../../images/profile.png'),
-  person_outline: require('../../images/profile.png'),
+  person: require('../../images/user.png'),
+  person_outline: require('../../images/user.png'),
 };
-
+function ProfileStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      key="profile-stack"
+    >
+      <Stack.Screen name="ProfileMain" component={Profile} />
+      <Stack.Screen name="Doimatkhau" component={Doimatkhau} />
+    </Stack.Navigator>
+  );
+}
 function AuthStack() {
   return (
     <Stack.Navigator>
@@ -48,11 +60,11 @@ function AuthStack() {
 function HomeStack() {
   return (
     <Stack.Navigator
-      screenOptions={({ navigation }) => ({
-        headerLeft: () => (navigation.canGoBack() ? <BackButton /> : null),
-        headerTitleAlign: 'center',
-        animation: 'slide_from_right',
-      })}
+      screenOptions={{
+      headerTitleAlign: 'center',
+      animation: 'slide_from_right',
+      // bỏ headerLeft đi
+    }}
       key="home-stack"
     >
       <Stack.Screen
@@ -116,7 +128,7 @@ function MainTabs() {
           return (
             <Image
               source={iconSource}
-              style={{ width: size, height: size, tintColor: color }}
+              style={{ width: size, height: size }}
               resizeMode="contain"
             />
           );
@@ -148,7 +160,7 @@ function MainTabs() {
       />
       <Tab.Screen name="History" component={History} options={{ title: 'Lịch sử' }} />
       <Tab.Screen name="Statistics" component={Statistics} options={{ title: 'Thống kê' }} />
-      <Tab.Screen name="Profile" component={Profile} options={{ title: 'Cá nhân' }} />
+      <Tab.Screen name="Profile" component={ProfileStack} options={{ title: 'Cá nhân' }} />
     </Tab.Navigator>
   );
 }

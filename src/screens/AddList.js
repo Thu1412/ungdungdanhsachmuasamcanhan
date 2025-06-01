@@ -92,7 +92,7 @@ export default function AddList({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>DANH SÁCH MÓN HÀNG</Text>
+      <Text style={styles.title}>THÊM DANH SÁCH MỚI</Text>
       <TextInput
         style={styles.input}
         placeholder="Tên danh sách"
