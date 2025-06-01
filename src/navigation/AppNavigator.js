@@ -41,8 +41,8 @@ function ProfileStack() {
       }}
       key="profile-stack"
     >
-      <Stack.Screen name="ProfileMain" component={Profile} />
-      <Stack.Screen name="Doimatkhau" component={Doimatkhau} />
+      <Stack.Screen name="ProfileMain" component={Profile} options={{ headerShown: false }}/>
+      <Stack.Screen name="Doimatkhau" component={Doimatkhau} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 }
@@ -52,7 +52,6 @@ function AuthStack() {
       <Stack.Screen name="Đăng Nhập" component={Dangnhap} options={{ headerShown: false }} />
       <Stack.Screen name="Đăng Ký" component={Dangky} options={{ headerShown: false }}/>
       <Stack.Screen name="Quên Mật Khẩu" component={Quenmatkhau} options={{ headerShown: false }}/>
-      <Stack.Screen name="Doimatkhau" component={Doimatkhau} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 }
@@ -63,12 +62,11 @@ function HomeStack() {
       screenOptions={{
       headerTitleAlign: 'center',
       animation: 'slide_from_right',
-      // bỏ headerLeft đi
     }}
       key="home-stack"
     >
       <Stack.Screen
-        name="HomeScreen"  // đổi tên thành HomeScreen
+        name="HomeScreen"  
         component={Home}
         options={{ headerShown: false }}
       />
@@ -92,11 +90,7 @@ function HomeStack() {
         component={EditDetail}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="Doimatkhau"
-        component={Doimatkhau}
-       options={{ headerShown: false }}
-      />
+      
       
     </Stack.Navigator>
   );
@@ -147,13 +141,9 @@ function MainTabs() {
         component={HomeStack}
         listeners={({ navigation, route }) => ({
           tabPress: e => {
-            // Nếu bạn muốn khi nhấn tab Home, reset stack về HomeScreen:
-            // Ngăn sự kiện mặc định
             e.preventDefault();
-
-            // Navigate về màn hình HomeScreen trong stack HomeStack
             navigation.navigate('Home', {
-              screen: 'HomeScreen', // Tên màn hình stack bên trong HomeStack
+              screen: 'HomeScreen', 
             });
           },
         })}

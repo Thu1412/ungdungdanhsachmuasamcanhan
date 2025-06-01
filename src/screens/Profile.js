@@ -147,20 +147,21 @@ export default function Profile({ navigation }) {
     }
   };
 
-  const handleSignOut = () => {
-    Alert.alert(
-      'Đăng xuất',
-      'Bạn có chắc muốn đăng xuất?',
-      [
-        { text: 'Hủy', style: 'cancel' },
-        {
-          text: 'Đăng xuất',
-          style: 'destructive',
-          onPress: () => signOut(),
-        },
-      ]
-    );
-  };
+ const handleSignOut = () => {
+  Alert.alert(
+    'Đăng xuất',
+    'Bạn có chắc muốn đăng xuất?',
+    [
+      { text: 'Hủy', style: 'cancel' },
+      {
+        text: 'Đăng xuất',
+        style: 'destructive',
+        onPress: () => signOut(), // Đây là hàm từ AuthContext
+      },
+    ]
+  );
+};
+
 
   return (
     <ScrollView style={styles.container}>
@@ -280,7 +281,7 @@ export default function Profile({ navigation }) {
           <Text style={styles.settingLabel}>Tự động hoàn thành</Text>
           <Switch
             value={settings.autoComplete}
-            onValueChange={(value) => updateSetting('autoComplete', value)}
+            onValueChange={(value) => updateSetting('autoComplete', value)} 
           />
         </View>
       </View>

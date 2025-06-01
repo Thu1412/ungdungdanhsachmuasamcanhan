@@ -129,8 +129,9 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>DANH SÁCH MUA SẮM</Text>
+      <Text style={styles.emailText}>Xin chào: {user.email}</Text>
 
-      <View style={styles.searchContainer}>
+      <View style={styles.searchContainer}> 
       <Image source={SearchIcon} style={styles.searchIcon} />
       <TextInput
         style={styles.searchInput}
@@ -295,6 +296,12 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
+  emailText: {
+  fontSize: 15,
+  color: '#333',
+  textAlign: 'center',
+  marginBottom: 10,
+},
   modalOverlay: {
     position: 'absolute',
     top: 0, left: 0, right: 0, bottom: 0,

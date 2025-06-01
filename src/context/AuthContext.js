@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 🔴 Luôn sign out khi app khởi động
     firebaseSignOut(auth).then(() => {
       console.log('Signed out automatically on app start');
     });
@@ -19,13 +18,17 @@ export const AuthProvider = ({ children }) => {
       setUser(currentUser);
       setLoading(false);
     });
-
     return () => unsubscribe();
   }, []);
 
   const signOut = async () => {
-    await signOut();
-  navigation.navigate('HomeScreen');
+    try {
+      await firebaseSignOut(auth);
+      console.log('Signed out successfully');
+      setUser(null);
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   return (
