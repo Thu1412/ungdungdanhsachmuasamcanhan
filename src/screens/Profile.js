@@ -147,21 +147,20 @@ export default function Profile({ navigation }) {
     }
   };
 
- const handleSignOut = () => {
-  Alert.alert(
-    'Đăng xuất',
-    'Bạn có chắc muốn đăng xuất?',
-    [
-      { text: 'Hủy', style: 'cancel' },
-      {
-        text: 'Đăng xuất',
-        style: 'destructive',
-        onPress: () => signOut(), // Đây là hàm từ AuthContext
-      },
-    ]
-  );
-};
-
+  const handleSignOut = () => {
+    Alert.alert(
+      'Đăng xuất',
+      'Bạn có chắc muốn đăng xuất?',
+      [
+        { text: 'Hủy', style: 'cancel' },
+        {
+          text: 'Đăng xuất',
+          style: 'destructive',
+          onPress: () => signOut(),
+        },
+      ]
+    );
+  };
 
   return (
     <ScrollView style={styles.container}>

@@ -24,16 +24,12 @@ export default function Dangnhap({ navigation }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-      // Lấy uid user để làm document ID
       const uid = userCredential.user.uid;
-
-      // Lưu thông tin người dùng trong context
       setUser({
         uid: uid,
         email: userCredential.user.email,
       });
  const emailAsId = userCredential.user.email;
-      // Lưu hoặc cập nhật thông tin người dùng vào Firestore theo uid
       await setDoc(
         doc(db, 'users', emailAsId),
         {

@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, ActivityIndicator, Image,ImageBackground  } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
-import BackButton from '../context/BackButton';
 
 // Auth Screens
 import Dangnhap from '../Logic/Dangnhap';
